@@ -4,8 +4,8 @@ import 'package:logging/logging.dart';
 
 /// Abstract class that other classes should extend to provide conversion to or
 /// from JSON.
-abstract class Jsonable {
-  static final Logger _logger = Logger('Jsonable');
+abstract class JsonClass {
+  static final Logger _logger = Logger('JsonClass');
 
   /// Parses the dynamic value into a [bool].  This will return [true] if and
   /// only if the value is...
@@ -98,9 +98,9 @@ abstract class Jsonable {
               isUtc: true,
             );
 
-  /// Converts the given list of [Jsonable] objects into JSON.  If the given
+  /// Converts the given list of [JsonClass] objects into JSON.  If the given
   /// list is [null] then [null] will be returned.
-  static List<dynamic> toJsonList(List<Jsonable> list) {
+  static List<dynamic> toJsonList(List<JsonClass> list) {
     List<dynamic> result;
 
     if (list != null) {
@@ -113,11 +113,68 @@ abstract class Jsonable {
     return result;
   }
 
-  /// Abstract function that concrete classes must implement.  This effectively
-  /// JSON encodes the class's internal data model.
+  /// Removes [null] values from the given input.  This defaults to removing
+  /// empty lists and maps.  To override this default, set the optional
+  /// [removeEmptyCollections] to [false].
+  ///
+  /// For example, if the the starting input is:
+  /// ```json
+  /// {
+  ///   "foo": "bar",
+  ///   "other": null,
+  ///   "map": {
+  ///     "value": null
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// A call to [removeNull] will result in the final string:
+  /// ```json
+  /// {
+  ///   "foo": "bar"
+  /// }
+  /// ```
+  static Map<String, dynamic> removeNull(
+    Map<String, dynamic> input, [
+    bool removeEmptyCollections = true,
+  ]) {
+    Map<String, dynamic> result;
+
+    if (input != null) {
+      result ??= <String, dynamic>{};
+
+      for (var entry in input.entries) {
+        if (entry.value != null) {
+          if (entry.value is Map) {
+            var processed = removeNull(
+              entry.value,
+              removeEmptyCollections,
+            );
+            if (processed != null) {
+              result[entry.key] = processed;
+            }
+          } else if (removeEmptyCollections != true ||
+              entry.value is! List ||
+              entry.value?.isNotEmpty == true) {
+            result[entry.key] = entry.value;
+          }
+        }
+      }
+    }
+
+    return result?.isNotEmpty == true || removeEmptyCollections == false
+        ? result
+        : null;
+  }
+
+  /// Abstract function that concrete classes must implement.  This must encode
+  /// the internal data model to a JSON compatible representation.
+  ///
+  /// While not required, it is suggested to call [removeNull] before returning.
   Map<String, dynamic> toJson();
 
-  /// Returns the string encoded JSON representation for this class.
+  /// Returns the string encoded JSON representation for this class.  This will
+  /// remove all [null] values and empty collections from the returned string.
   @override
-  String toString() => json.encode(toJson());
+  String toString() => json.encode(removeNull(toJson()));
 }
