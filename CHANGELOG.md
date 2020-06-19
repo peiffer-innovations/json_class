@@ -1,3 +1,10 @@
+## [1.0.2] - June 19th, 2020
+
+* Added `fromDynamicList` to `JsonClass`
+* Added `"infinity"` as a valid value for `parseDouble`
+* Changed signature of `JsonClassListBuilder` to guarantee it is an Iterable
+
+
 ## [1.0.1] - June 11th, 2020
 
 * Added `JsonClassBuilder` and `JsonClassListBuilder` types

@@ -1,11 +1,30 @@
 import 'dart:convert';
 
+import 'package:json_class/json_class.dart';
 import 'package:logging/logging.dart';
 
 /// Abstract class that other classes should extend to provide conversion to or
 /// from JSON.
 abstract class JsonClass {
   static final Logger _logger = Logger('JsonClass');
+
+  /// Helper function to create a list of dynamic objects given a [builder] that
+  /// can build a single object.
+  static List<T> fromDynamicList<T>(
+    Iterable<dynamic> list,
+    JsonClassBuilder<T> builder,
+  ) {
+    List<T> result;
+
+    if (list != null) {
+      result = [];
+      for (var map in list) {
+        result.add(builder(map));
+      }
+    }
+
+    return result;
+  }
 
   /// Parses the dynamic value into a [bool].  This will return [true] if and
   /// only if the value is...
@@ -32,6 +51,8 @@ abstract class JsonClass {
   /// Parses the dynamic value into a double.  The value may be a [String],
   /// [int], or [double].  If the value cannot be successfully parsed into a
   /// [double] then the [defaultValue] will be returned.
+  ///
+  /// A value of the string `infinity` will result in `double.infinity`.
   static double parseDouble(
     dynamic value, [
     double defaultValue,
@@ -39,7 +60,11 @@ abstract class JsonClass {
     double result;
     try {
       if (value is String) {
-        result = double.tryParse(value);
+        if (value.toLowerCase() == 'infinity') {
+          result = double.infinity;
+        } else {
+          result = double.tryParse(value);
+        }
       } else if (value is double) {
         result = value;
       } else if (value is int) {

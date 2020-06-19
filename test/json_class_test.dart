@@ -21,6 +21,8 @@ void main() {
 
   test('JsonClass.parseDouble', () {
     expect(null, JsonClass.parseDouble(null));
+    expect(double.infinity, JsonClass.parseDouble('infinity'));
+    expect(double.infinity, JsonClass.parseDouble('INFINITY'));
     expect(1.23, JsonClass.parseDouble(1.23));
     expect(1.23, JsonClass.parseDouble('1.23'));
     expect(1.0, JsonClass.parseDouble('1.0'));

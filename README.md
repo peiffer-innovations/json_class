@@ -55,7 +55,7 @@ class Person extends JsonClass {
     return result;
   }
 
-  static List<Person> fromDynamicList(dynamic list) {
+  static List<Person> fromDynamicList(Iterable<dynamic> list) {
     List<Person> results;
 
     if (list != null) {

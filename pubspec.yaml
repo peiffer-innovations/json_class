@@ -1,6 +1,6 @@
 name: json_class
 description: An abstract class to assist with converting to and from JSON with various primitive parsers.
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/peiffer-innovations/json_class
 
 environment:
