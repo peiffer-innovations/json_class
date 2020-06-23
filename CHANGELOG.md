@@ -1,3 +1,8 @@
+## [1.0.3] - June 19th, 2020
+
+* Added ability to parse `int` and `double` values from the Hex ("0xff") format
+
+
 ## [1.0.2] - June 19th, 2020
 
 * Added `fromDynamicList` to `JsonClass`

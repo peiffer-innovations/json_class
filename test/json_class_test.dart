@@ -3,74 +3,83 @@ import 'package:test/test.dart';
 
 void main() {
   test('JsonClass.parseBool', () {
-    expect(false, JsonClass.parseBool('false'));
-    expect(false, JsonClass.parseBool('FALSE'));
-    expect(false, JsonClass.parseBool('NO'));
-    expect(false, JsonClass.parseBool('no'));
-    expect(false, JsonClass.parseBool(0));
-    expect(false, JsonClass.parseBool(false));
-    expect(false, JsonClass.parseBool(null));
+    expect(JsonClass.parseBool('false'), false);
+    expect(JsonClass.parseBool('FALSE'), false);
+    expect(JsonClass.parseBool('NO'), false);
+    expect(JsonClass.parseBool('no'), false);
+    expect(JsonClass.parseBool(0), false);
+    expect(JsonClass.parseBool(false), false);
+    expect(JsonClass.parseBool(null), false);
 
-    expect(true, JsonClass.parseBool('true'));
-    expect(true, JsonClass.parseBool('TRUE'));
-    expect(true, JsonClass.parseBool('YES'));
-    expect(true, JsonClass.parseBool('yes'));
-    expect(true, JsonClass.parseBool(1));
-    expect(true, JsonClass.parseBool(true));
+    expect(JsonClass.parseBool('true'), true);
+    expect(JsonClass.parseBool('TRUE'), true);
+    expect(JsonClass.parseBool('YES'), true);
+    expect(JsonClass.parseBool('yes'), true);
+    expect(JsonClass.parseBool(1), true);
+    expect(JsonClass.parseBool(true), true);
   });
 
   test('JsonClass.parseDouble', () {
-    expect(null, JsonClass.parseDouble(null));
-    expect(double.infinity, JsonClass.parseDouble('infinity'));
-    expect(double.infinity, JsonClass.parseDouble('INFINITY'));
-    expect(1.23, JsonClass.parseDouble(1.23));
-    expect(1.23, JsonClass.parseDouble('1.23'));
-    expect(1.0, JsonClass.parseDouble('1.0'));
-    expect(1.0, JsonClass.parseDouble(1.0));
-    expect(1.0, JsonClass.parseDouble(1));
+    expect(JsonClass.parseDouble(null), null);
+    expect(
+      JsonClass.parseDouble('infinity'),
+      double.infinity,
+    );
+    expect(
+      JsonClass.parseDouble('INFINITY'),
+      double.infinity,
+    );
+    expect(JsonClass.parseDouble(1.23), 1.23);
+    expect(JsonClass.parseDouble('1.23'), 1.23);
+    expect(JsonClass.parseDouble('1.0'), 1.0);
+    expect(JsonClass.parseDouble(1.0), 1.0);
+    expect(JsonClass.parseDouble(1), 1.0);
+
+    expect(JsonClass.parseDouble('0xff'), 0xff);
   });
 
   test('JsonClass.parseDurationFromMillis', () {
-    expect(null, JsonClass.parseDurationFromMillis(null));
-    expect(Duration(milliseconds: 123), JsonClass.parseDurationFromMillis(123));
+    expect(JsonClass.parseDurationFromMillis(null), null);
+    expect(JsonClass.parseDurationFromMillis(123), Duration(milliseconds: 123));
     expect(
-      Duration(milliseconds: 123),
       JsonClass.parseDurationFromMillis(123.5),
+      Duration(milliseconds: 123),
     );
     expect(
-      Duration(milliseconds: 123),
       JsonClass.parseDurationFromMillis('123'),
+      Duration(milliseconds: 123),
     );
     expect(
-      Duration(milliseconds: 123),
       JsonClass.parseDurationFromMillis('123.5'),
+      Duration(milliseconds: 123),
     );
   });
 
   test('JsonClass.parseDurationFromSeconds', () {
-    expect(null, JsonClass.parseDurationFromSeconds(null));
-    expect(Duration(seconds: 123), JsonClass.parseDurationFromSeconds(123));
-    expect(Duration(seconds: 123), JsonClass.parseDurationFromSeconds(123.5));
-    expect(Duration(seconds: 123), JsonClass.parseDurationFromSeconds('123'));
-    expect(Duration(seconds: 123), JsonClass.parseDurationFromSeconds('123.5'));
+    expect(JsonClass.parseDurationFromSeconds(null), null);
+    expect(JsonClass.parseDurationFromSeconds(123), Duration(seconds: 123));
+    expect(JsonClass.parseDurationFromSeconds(123.5), Duration(seconds: 123));
+    expect(JsonClass.parseDurationFromSeconds('123'), Duration(seconds: 123));
+    expect(JsonClass.parseDurationFromSeconds('123.5'), Duration(seconds: 123));
   });
 
   test('JsonClass.parseInt', () {
-    expect(null, JsonClass.parseInt(null));
-    expect(1, JsonClass.parseInt(1.23));
-    expect(1, JsonClass.parseInt('1.23'));
-    expect(1, JsonClass.parseInt('1.0'));
-    expect(1, JsonClass.parseInt(1.0));
-    expect(1, JsonClass.parseInt(1));
+    expect(JsonClass.parseInt(null), null);
+    expect(JsonClass.parseInt(1.23), 1);
+    expect(JsonClass.parseInt('1.23'), 1);
+    expect(JsonClass.parseInt('1.0'), 1);
+    expect(JsonClass.parseInt(1.0), 1);
+    expect(JsonClass.parseInt(1), 1);
+    expect(JsonClass.parseInt('0xff'), 0xff);
   });
 
   test('JsonClass.parseUtcMillis', () {
     const millis = 1586717564014;
 
-    expect(null, JsonClass.parseDurationFromMillis(null));
-    expect(millis, JsonClass.parseUtcMillis(millis).millisecondsSinceEpoch);
-    expect(millis, JsonClass.parseUtcMillis('$millis').millisecondsSinceEpoch);
-    expect(true, JsonClass.parseUtcMillis(millis).isUtc);
+    expect(JsonClass.parseDurationFromMillis(null), null);
+    expect(JsonClass.parseUtcMillis(millis).millisecondsSinceEpoch, millis);
+    expect(JsonClass.parseUtcMillis('$millis').millisecondsSinceEpoch, millis);
+    expect(JsonClass.parseUtcMillis(millis).isUtc, true);
   });
 
   test('JsonClass.removeNull', () {
@@ -81,10 +90,13 @@ void main() {
       'map': {'value': null},
     };
 
-    expect({'foo': 'bar'}, JsonClass.removeNull(data));
     expect(
-      {'foo': 'bar', 'list': [], 'map': {}},
+      JsonClass.removeNull(data),
+      {'foo': 'bar'},
+    );
+    expect(
       JsonClass.removeNull(data, false),
+      {'foo': 'bar', 'list': [], 'map': {}},
     );
   });
 }

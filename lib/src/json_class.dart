@@ -62,6 +62,8 @@ abstract class JsonClass {
       if (value is String) {
         if (value.toLowerCase() == 'infinity') {
           result = double.infinity;
+        } else if (value.startsWith('0x') == true) {
+          result = int.tryParse(value.substring(2), radix: 16)?.toDouble();
         } else {
           result = double.tryParse(value);
         }
