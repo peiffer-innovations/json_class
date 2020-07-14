@@ -1,3 +1,8 @@
+## [1.0.4] - July 13th, 2020
+
+* Changed signature on `removeNull` because not all frameworks play nice with a `Map<String, dynamic>`
+
+
 ## [1.0.3] - June 23rd, 2020
 
 * Added ability to parse `int` and `double` values from the Hex ("0xff") format

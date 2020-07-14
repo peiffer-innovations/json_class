@@ -161,11 +161,11 @@ abstract class JsonClass {
   ///   "foo": "bar"
   /// }
   /// ```
-  static Map<String, dynamic> removeNull(
-    Map<String, dynamic> input, [
+  static dynamic removeNull(
+    dynamic input, [
     bool removeEmptyCollections = true,
   ]) {
-    Map<String, dynamic> result;
+    dynamic result;
 
     if (input != null) {
       result ??= <String, dynamic>{};
