@@ -1,3 +1,8 @@
+## [1.0.4+1] - August 22nd, 2020
+
+* Update to GitHub based metadata
+
+
 ## [1.0.4] - July 13th, 2020
 
 * Changed signature on `removeNull` because not all frameworks play nice with a `Map<String, dynamic>`
