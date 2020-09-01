@@ -77,20 +77,4 @@ class Person extends JsonClass {
   });
 }
 
-
-class SomeoneElseWhoUsesMyUiFramework extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return MyUiFramework(
-      childWidgetBuilder: (BuildContext context, Widget child) {
-        return Container(
-          // This would allow you to find by key this specific widget
-          key: ValueKey('MySpiffyUiWidgetKey'),
-          child: child,
-        );
-      }
-    );
-  }
-}
 ```

@@ -1,3 +1,8 @@
+## [1.0.6+1] - September 1st, 2020
+
+* Removed bad copy-and-paste code from README.md
+
+
 ## [1.0.6] - August 22nd, 2020
 
 * Rolling back to meta 1.1.8 due to `flutter_test` incompatiblities
