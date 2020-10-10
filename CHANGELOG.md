@@ -1,3 +1,8 @@
+## [1.0.7] - October 10th, 2020
+
+* Fixed bug with default value in `parseUtcMillis`
+
+
 ## [1.0.6+1] - September 1st, 2020
 
 * Removed bad copy-and-paste code from README.md

@@ -119,7 +119,12 @@ abstract class JsonClass {
     int defaultValue,
   ]) =>
       value == null
-          ? defaultValue
+          ? defaultValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(
+                  defaultValue,
+                  isUtc: true,
+                )
           : DateTime.fromMillisecondsSinceEpoch(
               parseInt(value, defaultValue),
               isUtc: true,

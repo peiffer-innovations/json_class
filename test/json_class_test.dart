@@ -76,7 +76,9 @@ void main() {
   test('JsonClass.parseUtcMillis', () {
     const millis = 1586717564014;
 
-    expect(JsonClass.parseDurationFromMillis(null), null);
+    expect(JsonClass.parseUtcMillis(null), null);
+    expect(
+        JsonClass.parseUtcMillis(null, millis)?.millisecondsSinceEpoch, millis);
     expect(JsonClass.parseUtcMillis(millis).millisecondsSinceEpoch, millis);
     expect(JsonClass.parseUtcMillis('$millis').millisecondsSinceEpoch, millis);
     expect(JsonClass.parseUtcMillis(millis).isUtc, true);
