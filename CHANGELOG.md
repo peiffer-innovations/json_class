@@ -1,3 +1,8 @@
+## [1.0.7+1] - December 13th, 2020
+
+* Pubspec sort order update
+
+
 ## [1.0.7] - October 10th, 2020
 
 * Fixed bug with default value in `parseUtcMillis`
