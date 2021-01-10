@@ -1,3 +1,8 @@
+## [1.0.7+2] - January 10th, 2021
+
+* Dependency updates
+
+
 ## [1.0.7+1] - December 13th, 2020
 
 * Pubspec sort order update
