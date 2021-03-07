@@ -79,9 +79,9 @@ void main() {
     expect(JsonClass.parseUtcMillis(null), null);
     expect(
         JsonClass.parseUtcMillis(null, millis)?.millisecondsSinceEpoch, millis);
-    expect(JsonClass.parseUtcMillis(millis).millisecondsSinceEpoch, millis);
-    expect(JsonClass.parseUtcMillis('$millis').millisecondsSinceEpoch, millis);
-    expect(JsonClass.parseUtcMillis(millis).isUtc, true);
+    expect(JsonClass.parseUtcMillis(millis)?.millisecondsSinceEpoch, millis);
+    expect(JsonClass.parseUtcMillis('$millis')?.millisecondsSinceEpoch, millis);
+    expect(JsonClass.parseUtcMillis(millis)?.isUtc, true);
   });
 
   test('JsonClass.removeNull', () {

@@ -10,11 +10,11 @@ abstract class JsonClass {
 
   /// Helper function to create a list of dynamic objects given a [builder] that
   /// can build a single object.
-  static List<T> fromDynamicList<T>(
-    Iterable<dynamic> list,
+  static List<T>? fromDynamicList<T>(
+    Iterable<dynamic>? list,
     JsonClassBuilder<T> builder,
   ) {
-    List<T> result;
+    List<T>? result;
 
     if (list != null) {
       result = [];
@@ -53,11 +53,11 @@ abstract class JsonClass {
   /// [double] then the [defaultValue] will be returned.
   ///
   /// A value of the string `infinity` will result in `double.infinity`.
-  static double parseDouble(
+  static double? parseDouble(
     dynamic value, [
-    double defaultValue,
+    double? defaultValue,
   ]) {
-    double result;
+    double? result;
     try {
       if (value is String) {
         if (value.toLowerCase() == 'infinity') {
@@ -82,9 +82,9 @@ abstract class JsonClass {
   /// Parses a duration from milliseconds.  The value may be an [int], [double],
   /// or number encoded [String].  If the value cannot be processed into a
   /// duration then this will return the [defaultValue].
-  static Duration parseDurationFromMillis(
+  static Duration? parseDurationFromMillis(
     dynamic value, [
-    Duration defaultValue,
+    Duration? defaultValue,
   ]) {
     var millis = parseInt(value);
 
@@ -94,9 +94,9 @@ abstract class JsonClass {
   /// Parses a duration from seconds.  The value may be an [int], [double], or
   /// number encoded [String].  If the value cannot be processed into a duration
   /// then this will return the [defaultValue].
-  static Duration parseDurationFromSeconds(
+  static Duration? parseDurationFromSeconds(
     dynamic value, [
-    Duration defaultValue,
+    Duration? defaultValue,
   ]) {
     var seconds = parseInt(value);
 
@@ -106,17 +106,17 @@ abstract class JsonClass {
   /// Parses the dynamic value into a int.  The value may be a [String], [int],
   /// [double].  If the value cannot be successfully parsed into an [int] then
   /// [the [defaultValue] will be returned.
-  static int parseInt(
+  static int? parseInt(
     dynamic value, [
-    int defaultValue,
+    int? defaultValue,
   ]) =>
       parseDouble(value)?.toInt() ?? defaultValue;
 
   /// Parses the given UTC Millis into a proper [DateTime] class.  If the value
   /// cannot be processed then this will return the [defaultValue].
-  static DateTime parseUtcMillis(
-    dynamic value, [
-    int defaultValue,
+  static DateTime? parseUtcMillis(
+    dynamic? value, [
+    int? defaultValue,
   ]) =>
       value == null
           ? defaultValue == null
@@ -126,14 +126,14 @@ abstract class JsonClass {
                   isUtc: true,
                 )
           : DateTime.fromMillisecondsSinceEpoch(
-              parseInt(value, defaultValue),
+              parseInt(value, defaultValue) ?? 0,
               isUtc: true,
             );
 
   /// Converts the given list of [JsonClass] objects into JSON.  If the given
   /// list is [null] then [null] will be returned.
-  static List<dynamic> toJsonList(List<JsonClass> list) {
-    List<dynamic> result;
+  static List<dynamic>? toJsonList(List<JsonClass>? list) {
+    List<dynamic>? result;
 
     if (list != null) {
       result = [];
