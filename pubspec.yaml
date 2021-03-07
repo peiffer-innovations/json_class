@@ -12,6 +12,3 @@ dependencies:
 
 dev_dependencies:
   test: ^1.16.0-nullsafety
-
-dependency_overrides:
-  test_coverage: any
