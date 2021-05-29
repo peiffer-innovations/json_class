@@ -115,7 +115,7 @@ abstract class JsonClass {
   /// Parses the given UTC Millis into a proper [DateTime] class.  If the value
   /// cannot be processed then this will return the [defaultValue].
   static DateTime? parseUtcMillis(
-    dynamic? value, [
+    dynamic value, [
     int? defaultValue,
   ]) =>
       value == null

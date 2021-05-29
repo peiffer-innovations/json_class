@@ -1,3 +1,8 @@
+## [2.0.0+1] - May 29th, 2021
+
+* Updated with latest static code analysis rules
+
+
 ## [2.0.0] - March 7th, 2021
 
 * Null Safety
