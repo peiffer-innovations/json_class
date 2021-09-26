@@ -131,7 +131,7 @@ abstract class JsonClass {
             );
 
   /// Converts the given list of [JsonClass] objects into JSON.  If the given
-  /// list is [null] then [null] will be returned.
+  /// list is `null` then `null` will be returned.
   static List<dynamic>? toJsonList(List<JsonClass>? list) {
     List<dynamic>? result;
 
@@ -145,7 +145,7 @@ abstract class JsonClass {
     return result;
   }
 
-  /// Removes [null] values from the given input.  This defaults to removing
+  /// Removes `null` values from the given input.  This defaults to removing
   /// empty lists and maps.  To override this default, set the optional
   /// [removeEmptyCollections] to [false].
   ///
@@ -206,7 +206,7 @@ abstract class JsonClass {
   Map<String, dynamic> toJson();
 
   /// Returns the string encoded JSON representation for this class.  This will
-  /// remove all [null] values and empty collections from the returned string.
+  /// remove all `null` values and empty collections from the returned string.
   @override
   String toString() => json.encode(removeNull(toJson()));
 }

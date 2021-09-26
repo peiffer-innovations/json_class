@@ -1,14 +1,14 @@
 name: json_class
 description: An abstract class to assist with converting to and from JSON with various primitive parsers.
-version: 2.0.0+1
+version: 2.0.0+2
 homepage: https://github.com/peiffer-innovations/json_class
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  logging: ^1.0.0
-  meta: ^1.3.0
+  logging: ^1.0.2
+  meta: ^1.7.0
 
 dev_dependencies:
-  test: ^1.16.0-nullsafety
+  test: ^1.17.12
