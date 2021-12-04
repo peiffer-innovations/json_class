@@ -112,6 +112,14 @@ abstract class JsonClass {
   ]) =>
       parseDouble(value)?.toInt() ?? defaultValue;
 
+  static dynamic parseJson(dynamic value) {
+    var result = value;
+
+    if (value is String) {}
+
+    return result;
+  }
+
   /// Parses the given UTC Millis into a proper [DateTime] class.  If the value
   /// cannot be processed then this will return the [defaultValue].
   static DateTime? parseUtcMillis(

@@ -1,3 +1,8 @@
+## [2.0.1] - December 4th, 2021
+
+* Added `parseJson` function to attempt to parse a string into the JSON version
+
+
 ## [2.0.0+4] - November 14th, 2021
 
 * Switched GH publish action
