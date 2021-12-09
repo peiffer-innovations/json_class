@@ -1,3 +1,8 @@
+## [2.1.0] - December 8th, 2021
+
+* Updated for Flutter 2.8
+
+
 ## [2.0.1] - December 4th, 2021
 
 * Added `parseJson` function to attempt to parse a string into the JSON version
