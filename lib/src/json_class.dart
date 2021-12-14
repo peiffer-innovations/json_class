@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:json_class/json_class.dart';
 import 'package:logging/logging.dart';
 
@@ -43,6 +44,68 @@ abstract class JsonClass {
       var lower = value.toLowerCase();
       result = result || lower == 'true';
       result = result || lower == 'yes';
+    }
+
+    return result;
+  }
+
+  /// Parses the given [value] into a [DateTime] object.  If the [value] cannot
+  /// be parsed then null will be returned.
+  ///
+  /// The following formats will result in the [DateTime] object being returned
+  /// as a UTC based [DateTime]:
+  /// * `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"`
+  /// * `"yyyy-MM-dd'T'HH:mm:ss'Z'"`
+  /// * `"yyyy-MM-dd'T'HH:mm'Z'"`
+  ///
+  /// The following formats will result in the [DateTime] object being returned
+  /// as a local timezone based [DateTime]:
+  /// * `"yyyy-MM-dd'T'HH:mm:ss"`
+  /// * `"yyyy-MM-dd'T'HH:mm"`
+  /// * `'yyyy-MM-dd'`
+  /// * `'MM/dd/yyyy'`
+  static DateTime? parseDateTime(dynamic value) {
+    DateTime? result;
+
+    if (value is DateTime) {
+      result = value;
+    }
+    if (value != null) {
+      const utcPatterns = [
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        "yyyy-MM-dd'T'HH:mm'Z'",
+      ];
+
+      const patterns = [
+        "yyyy-MM-dd'T'HH:mm:ss.SSS",
+        "yyyy-MM-dd'T'HH:mm:ss",
+        "yyyy-MM-dd'T'HH:mm",
+        'yyyy-MM-dd',
+        'MM/dd/yyyy'
+      ];
+
+      for (var pattern in utcPatterns) {
+        try {
+          result = DateFormat(pattern).parse(
+            value,
+            true,
+          );
+          break;
+        } catch (e) {
+          // no-op
+        }
+      }
+      if (result == null) {
+        for (var pattern in patterns) {
+          try {
+            result = DateFormat(pattern).parse(value, false);
+            break;
+          } catch (e) {
+            // no-op
+          }
+        }
+      }
     }
 
     return result;

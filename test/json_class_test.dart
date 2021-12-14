@@ -19,6 +19,76 @@ void main() {
     expect(JsonClass.parseBool(true), true);
   });
 
+  test('JsonClass.parseDateTime', () {
+    expect(
+      JsonClass.parseDateTime(null),
+      null,
+    );
+
+    expect(
+      JsonClass.parseDateTime(DateTime(2019, 01, 01)),
+      DateTime(2019, 01, 01),
+    );
+
+    expect(
+      JsonClass.parseDateTime('01/02/2020'),
+      DateTime(2020, 01, 02),
+    );
+    expect(
+      JsonClass.parseDateTime('01/02/2020')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseDateTime('2020-02-01'),
+      DateTime(2020, 02, 01),
+    );
+    expect(
+      JsonClass.parseDateTime('2020-02-01')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30'),
+      DateTime(2020, 02, 01, 12, 30),
+    );
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30:45'),
+      DateTime(2020, 02, 01, 12, 30, 45),
+    );
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30:45')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30:45.123'),
+      DateTime(2020, 02, 01, 12, 30, 45, 123),
+    );
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30:45.123')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30Z')!.isUtc,
+      true,
+    );
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30:45Z')!.isUtc,
+      true,
+    );
+    expect(
+      JsonClass.parseDateTime('2020-02-01T12:30:45.123Z')!.isUtc,
+      true,
+    );
+  });
+
   test('JsonClass.parseDouble', () {
     expect(JsonClass.parseDouble(null), null);
     expect(

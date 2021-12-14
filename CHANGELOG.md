@@ -1,3 +1,8 @@
+## [2.1.1] - December 13th, 2021
+
+* Added `parseDateTime` to parse common DateTime patterns
+
+
 ## [2.1.0] - December 8th, 2021
 
 * Updated for Flutter 2.8
