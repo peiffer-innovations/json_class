@@ -1,5 +1,6 @@
-## [2.1.2] - December 18th, 2021
+## [2.1.2+1] - December 18th, 2021
 
+* Added `parseValue` to parse typed values
 * Added optional `whenNull` parameter to `parseBool`
 
 

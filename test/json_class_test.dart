@@ -90,6 +90,17 @@ void main() {
       JsonClass.parseDateTime('2020-02-01T12:30:45.123Z')!.isUtc,
       true,
     );
+
+    const millis = 1586717564014;
+    expect(
+      JsonClass.parseDateTime(millis)?.millisecondsSinceEpoch,
+      millis,
+    );
+    expect(
+      JsonClass.parseDateTime('$millis')?.millisecondsSinceEpoch,
+      millis,
+    );
+    expect(JsonClass.parseDateTime(millis)!.isUtc, true);
   });
 
   test('JsonClass.parseDouble', () {
@@ -155,6 +166,118 @@ void main() {
     expect(JsonClass.parseUtcMillis(millis)?.millisecondsSinceEpoch, millis);
     expect(JsonClass.parseUtcMillis('$millis')?.millisecondsSinceEpoch, millis);
     expect(JsonClass.parseUtcMillis(millis)?.isUtc, true);
+  });
+
+  test('JsonClass.parseValue', () {
+    expect(
+      JsonClass.parseValue<DateTime>(null),
+      null,
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>(DateTime(2019, 01, 01)),
+      DateTime(2019, 01, 01),
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>('01/02/2020'),
+      DateTime(2020, 01, 02),
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('01/02/2020')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01'),
+      DateTime(2020, 02, 01),
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30'),
+      DateTime(2020, 02, 01, 12, 30),
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30:45'),
+      DateTime(2020, 02, 01, 12, 30, 45),
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30:45')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30:45.123'),
+      DateTime(2020, 02, 01, 12, 30, 45, 123),
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30:45.123')!.isUtc,
+      false,
+    );
+
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30Z')!.isUtc,
+      true,
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30:45Z')!.isUtc,
+      true,
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('2020-02-01T12:30:45.123Z')!.isUtc,
+      true,
+    );
+
+    const millis = 1586717564014;
+    expect(
+      JsonClass.parseValue<DateTime>(millis)?.millisecondsSinceEpoch,
+      millis,
+    );
+    expect(
+      JsonClass.parseValue<DateTime>('$millis')?.millisecondsSinceEpoch,
+      millis,
+    );
+    expect(JsonClass.parseValue<DateTime>(millis)!.isUtc, true);
+
+    expect(JsonClass.parseValue<double>(null), null);
+    expect(JsonClass.parseValue<double>(123), 123.0);
+    expect(JsonClass.parseValue<double>(123.45), 123.45);
+    expect(JsonClass.parseValue<double>('123'), 123.0);
+    expect(JsonClass.parseValue<double>('123.45'), 123.45);
+    expect(JsonClass.parseValue<double>('foo'), null);
+
+    expect(JsonClass.parseValue<Duration>(null), null);
+    expect(JsonClass.parseValue<Duration>(123), Duration(milliseconds: 123));
+    expect(JsonClass.parseValue<Duration>(123.45), Duration(milliseconds: 123));
+    expect(
+      JsonClass.parseValue<Duration>('123'),
+      Duration(milliseconds: 123),
+    );
+    expect(
+      JsonClass.parseValue<Duration>('123.45'),
+      Duration(milliseconds: 123),
+    );
+    expect(JsonClass.parseValue<Duration>('foo'), null);
+
+    expect(JsonClass.parseValue<int>(null), null);
+    expect(JsonClass.parseValue<int>(123), 123);
+    expect(JsonClass.parseValue<int>(123.45), 123);
+    expect(JsonClass.parseValue<int>('123'), 123);
+    expect(JsonClass.parseValue<int>('123.45'), 123);
+    expect(JsonClass.parseValue<int>('foo'), null);
+
+    expect(JsonClass.parseValue<String>(null), null);
+    expect(JsonClass.parseValue<String>('foo'), 'foo');
+    expect(JsonClass.parseValue<String>(123.45), '123.45');
   });
 
   test('JsonClass.removeNull', () {

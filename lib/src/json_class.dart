@@ -71,12 +71,18 @@ abstract class JsonClass {
   /// * `"yyyy-MM-dd'T'HH:mm"`
   /// * `'yyyy-MM-dd'`
   /// * `'MM/dd/yyyy'`
+  ///
+  /// Alternatively, the value may be in UTC Millis and that will also properly
+  /// decode to a DateTime.
   static DateTime? parseDateTime(dynamic value) {
     DateTime? result;
 
     if (value is DateTime) {
       result = value;
+    } else {
+      result = parseUtcMillis(value);
     }
+
     if (value != null) {
       const utcPatterns = [
         "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
@@ -203,22 +209,37 @@ abstract class JsonClass {
   }
 
   /// Parses the given UTC Millis into a proper [DateTime] class.  If the
-  /// [value] cannot be processed then this will return the [defaultValue].
+  /// [value] cannot be processed then this will return the [defaultValue] or
+  /// null if there is no provided [defaultValue].
   static DateTime? parseUtcMillis(
     dynamic value, [
     int? defaultValue,
-  ]) =>
-      value == null
-          ? defaultValue == null
-              ? null
-              : DateTime.fromMillisecondsSinceEpoch(
-                  defaultValue,
-                  isUtc: true,
-                )
+  ]) {
+    DateTime? result;
+    int? input;
+
+    if (value is int) {
+      input = value;
+    } else if (value is String || value is double) {
+      input = JsonClass.parseInt(value);
+    }
+
+    if (input == null) {
+      result = defaultValue == null
+          ? null
           : DateTime.fromMillisecondsSinceEpoch(
-              parseInt(value, defaultValue) ?? 0,
+              defaultValue,
               isUtc: true,
             );
+    } else {
+      result = DateTime.fromMillisecondsSinceEpoch(
+        input,
+        isUtc: true,
+      );
+    }
+
+    return result;
+  }
 
   /// Converts the given [list] of [JsonClass] objects into JSON.  If the given
   /// list is null` then null will be returned.
@@ -230,6 +251,30 @@ abstract class JsonClass {
       for (var j in list) {
         result.add(j.toJson());
       }
+    }
+
+    return result;
+  }
+
+  static dynamic parseValue<T>(dynamic input) {
+    dynamic result;
+
+    if (T == bool) {
+      result = parseBool(input);
+    } else if (T == String) {
+      result = input?.toString();
+    } else if (T == double) {
+      result = parseDouble(input);
+    } else if (T == int) {
+      result = parseInt(input);
+    } else if (T == num) {
+      result = parseDouble(input);
+    } else if (T == DateTime) {
+      result = parseDateTime(input);
+    } else if (T == Duration) {
+      result = parseDurationFromMillis(input);
+    } else {
+      throw Exception('Unknown value type: [${T.runtimeType}');
     }
 
     return result;
