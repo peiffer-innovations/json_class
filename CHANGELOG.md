@@ -1,3 +1,8 @@
+## [2.1.2] - December 18th, 2021
+
+* Added optional `whenNull` parameter to `parseBool`
+
+
 ## [2.1.1] - December 13th, 2021
 
 * Added `parseDateTime` to parse common DateTime patterns

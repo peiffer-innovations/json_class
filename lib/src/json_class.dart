@@ -35,15 +35,22 @@ abstract class JsonClass {
   /// * `1`
   ///
   /// Any other value will result in [false].
-  static bool parseBool(dynamic value) {
+  static bool parseBool(
+    dynamic value, {
+    bool whenNull = false,
+  }) {
     var result = false;
 
-    result = result || value == true;
-    result = result || parseInt(value) == 1;
-    if (result != true && value is String) {
-      var lower = value.toLowerCase();
-      result = result || lower == 'true';
-      result = result || lower == 'yes';
+    if (value == null) {
+      result = whenNull;
+    } else {
+      result = result || value == true;
+      result = result || parseInt(value) == 1;
+      if (result != true && value is String) {
+        var lower = value.toLowerCase();
+        result = result || lower == 'true';
+        result = result || lower == 'yes';
+      }
     }
 
     return result;

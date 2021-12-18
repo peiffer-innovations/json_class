@@ -17,6 +17,9 @@ void main() {
     expect(JsonClass.parseBool('yes'), true);
     expect(JsonClass.parseBool(1), true);
     expect(JsonClass.parseBool(true), true);
+
+    expect(JsonClass.parseBool(null, whenNull: false), false);
+    expect(JsonClass.parseBool(null, whenNull: true), true);
   });
 
   test('JsonClass.parseDateTime', () {
