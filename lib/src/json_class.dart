@@ -274,7 +274,7 @@ abstract class JsonClass {
     } else if (T == Duration) {
       result = parseDurationFromMillis(input);
     } else {
-      throw Exception('Unknown value type: [${T.runtimeType}');
+      throw Exception('Unknown value type: [${T.runtimeType}]');
     }
 
     return result;
