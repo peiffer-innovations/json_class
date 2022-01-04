@@ -1,3 +1,8 @@
+## [2.1.2+2] - January 3rd, 2022
+
+* Require Dart 2.15+
+
+
 ## [2.1.2+1] - December 18th, 2021
 
 * Added `parseValue` to parse typed values
