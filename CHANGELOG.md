@@ -1,4 +1,4 @@
-## [2.1.2+2] - January 3rd, 2022
+## [2.1.2+3] - January 3rd, 2022
 
 * Require Dart 2.15+
 
