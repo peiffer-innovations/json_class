@@ -1,5 +1,6 @@
-## [2.1.2+3] - January 3rd, 2022
+## [2.1.2+4] - February 6th, 2022
 
+* Workflow update
 * Require Dart 2.15+
 
 
