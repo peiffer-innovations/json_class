@@ -1,22 +1,20 @@
-name: json_class
-description: An abstract class to assist with converting to and from JSON with various primitive parsers.
-version: 2.1.2+4
-homepage: https://github.com/peiffer-innovations/json_class
+name: 'json_class'
+description: 'An abstract class to assist with converting to and from JSON with various primitive parsers.'
+version: '2.1.2+5'
+homepage: 'https://github.com/peiffer-innovations/json_class'
 
-environment:
+environment: 
   sdk: '>=2.17.0 <3.0.0'
 
-dependencies:
-  intl: ^0.17.0
-  logging: ^1.0.1
-  meta: ^1.7.0
+dependencies: 
+  intl: '^0.17.0'
+  logging: '^1.0.2'
+  meta: '^1.7.0'
 
-dev_dependencies:
-  test: ^1.21.1
+dev_dependencies: 
+  test: '^1.21.1'
 
-ignore_updates:
-  # Ignoring everything in flutter_test as those are all point-in-time entries
-  # can't upgrade without upgrading Flutter itself.
+ignore_updates: 
   - 'async'
   - 'boolean_selector'
   - 'characters'
