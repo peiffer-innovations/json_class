@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [json_class](#json_class)
+  - [Using the library](#using-the-library)
+  - [Example](#example)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # json_class
 
 Singular class that when extended can encode itself to a JSON compatible map or list.  This also provides convenience functions to decode from a JSON compatible map or list to the actual data model.
