@@ -1,6 +1,6 @@
 name: 'json_class'
 description: 'An abstract class to assist with converting to and from JSON with various primitive parsers.'
-version: '2.1.2+10'
+version: '2.1.2+11'
 homepage: 'https://github.com/peiffer-innovations/json_class'
 
 environment: 
@@ -8,7 +8,7 @@ environment:
 
 dependencies: 
   intl: '^0.17.0'
-  logging: '^1.0.2'
+  logging: '^1.1.0'
   meta: '^1.7.0'
 
 dev_dependencies: 
