@@ -1,3 +1,8 @@
+## [2.1.2+13] - November 8, 2022
+
+* Automated dependency updates
+
+
 ## [2.1.2+12] - November 1, 2022
 
 * Automated dependency updates
@@ -145,6 +150,7 @@
 ## [1.0.0] - June 6th, 2020
 
 * Initial release
+
 
 
 
