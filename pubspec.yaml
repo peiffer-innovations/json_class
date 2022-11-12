@@ -3,18 +3,18 @@ description: 'An abstract class to assist with converting to and from JSON with 
 version: '2.1.2+13'
 homepage: 'https://github.com/peiffer-innovations/json_class'
 
-environment: 
-  sdk: '>=2.17.0 <3.0.0'
+environment:
+  sdk: '>=2.18.0 <3.0.0'
 
-dependencies: 
+dependencies:
   intl: '^0.17.0'
   logging: '^1.1.0'
   meta: '^1.7.0'
 
-dev_dependencies: 
+dev_dependencies:
   test: '^1.22.0'
 
-ignore_updates: 
+ignore_updates:
   - 'archive'
   - 'async'
   - 'boolean_selector'
