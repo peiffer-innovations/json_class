@@ -47,7 +47,7 @@ abstract class JsonClass {
       result = result || value == true;
       result = result || parseInt(value) == 1;
       if (result != true && value is String) {
-        var lower = value.toLowerCase();
+        final lower = value.toLowerCase();
         result = result || lower == 'true';
         result = result || lower == 'yes';
       }
@@ -162,7 +162,7 @@ abstract class JsonClass {
     dynamic value, [
     Duration? defaultValue,
   ]) {
-    var millis = parseInt(value);
+    final millis = parseInt(value);
 
     return millis == null ? defaultValue : Duration(milliseconds: millis);
   }
@@ -174,7 +174,7 @@ abstract class JsonClass {
     dynamic value, [
     Duration? defaultValue,
   ]) {
-    var seconds = parseInt(value);
+    final seconds = parseInt(value);
 
     return seconds == null ? defaultValue : Duration(seconds: seconds);
   }
@@ -195,7 +195,7 @@ abstract class JsonClass {
     dynamic value, [
     dynamic defaultValue,
   ]) {
-    var result = value;
+    final result = value;
 
     if (value is String) {
       try {
@@ -313,7 +313,7 @@ abstract class JsonClass {
       for (var entry in input.entries) {
         if (entry.value != null) {
           if (entry.value is Map) {
-            var processed = removeNull(
+            final processed = removeNull(
               entry.value,
               removeEmptyCollections,
             );

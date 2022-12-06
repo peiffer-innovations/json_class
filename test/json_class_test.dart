@@ -124,27 +124,32 @@ void main() {
 
   test('JsonClass.parseDurationFromMillis', () {
     expect(JsonClass.parseDurationFromMillis(null), null);
-    expect(JsonClass.parseDurationFromMillis(123), Duration(milliseconds: 123));
+    expect(JsonClass.parseDurationFromMillis(123),
+        const Duration(milliseconds: 123));
     expect(
       JsonClass.parseDurationFromMillis(123.5),
-      Duration(milliseconds: 123),
+      const Duration(milliseconds: 123),
     );
     expect(
       JsonClass.parseDurationFromMillis('123'),
-      Duration(milliseconds: 123),
+      const Duration(milliseconds: 123),
     );
     expect(
       JsonClass.parseDurationFromMillis('123.5'),
-      Duration(milliseconds: 123),
+      const Duration(milliseconds: 123),
     );
   });
 
   test('JsonClass.parseDurationFromSeconds', () {
     expect(JsonClass.parseDurationFromSeconds(null), null);
-    expect(JsonClass.parseDurationFromSeconds(123), Duration(seconds: 123));
-    expect(JsonClass.parseDurationFromSeconds(123.5), Duration(seconds: 123));
-    expect(JsonClass.parseDurationFromSeconds('123'), Duration(seconds: 123));
-    expect(JsonClass.parseDurationFromSeconds('123.5'), Duration(seconds: 123));
+    expect(
+        JsonClass.parseDurationFromSeconds(123), const Duration(seconds: 123));
+    expect(JsonClass.parseDurationFromSeconds(123.5),
+        const Duration(seconds: 123));
+    expect(JsonClass.parseDurationFromSeconds('123'),
+        const Duration(seconds: 123));
+    expect(JsonClass.parseDurationFromSeconds('123.5'),
+        const Duration(seconds: 123));
   });
 
   test('JsonClass.parseInt', () {
@@ -256,15 +261,17 @@ void main() {
     expect(JsonClass.parseValue<double>('foo'), null);
 
     expect(JsonClass.parseValue<Duration>(null), null);
-    expect(JsonClass.parseValue<Duration>(123), Duration(milliseconds: 123));
-    expect(JsonClass.parseValue<Duration>(123.45), Duration(milliseconds: 123));
+    expect(
+        JsonClass.parseValue<Duration>(123), const Duration(milliseconds: 123));
+    expect(JsonClass.parseValue<Duration>(123.45),
+        const Duration(milliseconds: 123));
     expect(
       JsonClass.parseValue<Duration>('123'),
-      Duration(milliseconds: 123),
+      const Duration(milliseconds: 123),
     );
     expect(
       JsonClass.parseValue<Duration>('123.45'),
-      Duration(milliseconds: 123),
+      const Duration(milliseconds: 123),
     );
     expect(JsonClass.parseValue<Duration>('foo'), null);
 
@@ -281,7 +288,7 @@ void main() {
   });
 
   test('JsonClass.removeNull', () {
-    var data = {
+    final data = {
       'foo': 'bar',
       'other': null,
       'list': [],
