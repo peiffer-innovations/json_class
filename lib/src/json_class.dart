@@ -7,6 +7,8 @@ import 'package:logging/logging.dart';
 /// Abstract class that other classes should extend to provide conversion to or
 /// from JSON.
 abstract class JsonClass {
+  const JsonClass();
+
   static final Logger _logger = Logger('JsonClass');
 
   /// Helper function to create a [list] of dynamic objects given a [builder]

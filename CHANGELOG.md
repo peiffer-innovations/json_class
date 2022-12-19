@@ -1,3 +1,8 @@
+## [2.1.3] - December 19th, 2022
+
+* Updated to support a `const` constructor
+
+
 ## [2.1.2+14] - December 13, 2022
 
 * Automated dependency updates
