@@ -210,6 +210,65 @@ abstract class JsonClass {
     return result;
   }
 
+  /// Parses the dynamic [value] into a [Level] suitable for usage with the
+  /// logging package.  The [value] is case-insensitive accepted values are:
+  ///
+  /// * `all`
+  /// * `config`
+  /// * `fine`
+  /// * `finer`
+  /// * `finest`
+  /// * `off`
+  /// * `severe`
+  /// * `shout`
+  /// * `warning`
+  ///
+  /// Any other value will result in the [defaultLevel] being returned
+  static Level parseLevel(dynamic value, [Level defaultLevel = Level.INFO]) {
+    final str = value?.toString().toLowerCase();
+    var result = defaultLevel;
+
+    switch (str) {
+      case 'all':
+        result = Level.ALL;
+        break;
+
+      case 'config':
+        result = Level.CONFIG;
+        break;
+
+      case 'fine':
+        result = Level.FINE;
+        break;
+
+      case 'finer':
+        result = Level.FINER;
+        break;
+
+      case 'finest':
+        result = Level.FINEST;
+        break;
+
+      case 'off':
+        result = Level.OFF;
+        break;
+
+      case 'severe':
+        result = Level.SEVERE;
+        break;
+
+      case 'shout':
+        result = Level.SHOUT;
+        break;
+
+      case 'warning':
+        result = Level.WARNING;
+        break;
+    }
+
+    return result;
+  }
+
   /// Parses the given UTC Millis into a proper [DateTime] class.  If the
   /// [value] cannot be processed then this will return the [defaultValue] or
   /// null if there is no provided [defaultValue].

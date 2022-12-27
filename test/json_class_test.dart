@@ -1,4 +1,5 @@
 import 'package:json_class/json_class.dart';
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -160,6 +161,26 @@ void main() {
     expect(JsonClass.parseInt(1.0), 1);
     expect(JsonClass.parseInt(1), 1);
     expect(JsonClass.parseInt('0xff'), 0xff);
+  });
+
+  test('JsonClass.parseLevel', () {
+    final levels = {
+      'all': Level.ALL,
+      'config': Level.CONFIG,
+      'fine': Level.FINE,
+      'finer': Level.FINER,
+      'finest': Level.FINEST,
+      'off': Level.OFF,
+      'severe': Level.SEVERE,
+      'shout': Level.SHOUT,
+      'warning': Level.WARNING,
+    };
+
+    expect(JsonClass.parseLevel('default', Level.OFF), Level.OFF);
+
+    for (var entry in levels.entries) {
+      expect(JsonClass.parseLevel(entry.key), entry.value);
+    }
   });
 
   test('JsonClass.parseUtcMillis', () {

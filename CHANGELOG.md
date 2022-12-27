@@ -1,3 +1,8 @@
+## [2.1.4] - December 27th, 2022
+
+* Added parser for [logging](https://pub.dev/packages/logging)'s `Level` object
+
+
 ## [2.1.3] - December 19th, 2022
 
 * Updated to support a `const` constructor
