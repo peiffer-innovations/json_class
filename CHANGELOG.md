@@ -1,3 +1,8 @@
+## [2.1.4+1] - January 17, 2023
+
+* Automated dependency updates
+
+
 ## [2.1.4] - December 27th, 2022
 
 * Added parser for [logging](https://pub.dev/packages/logging)'s `Level` object
@@ -165,6 +170,7 @@
 ## [1.0.0] - June 6th, 2020
 
 * Initial release
+
 
 
 
