@@ -29,6 +29,24 @@ abstract class JsonClass {
     return result;
   }
 
+  /// Helper function to create a [map] of string keys to dynamic objects given
+  /// a [builder] that can build a single object.
+  static Map<String, T>? fromDynamicMap<T>(
+    dynamic map,
+    JsonClassBuilder<T> builder,
+  ) {
+    Map<String, T>? result;
+
+    if (map != null) {
+      result = {};
+      for (var entry in map.entries) {
+        result[entry.key] = builder(entry.value);
+      }
+    }
+
+    return result;
+  }
+
   /// Parses the dynamic [value] into a [bool].  This will return [true] if and
   /// only if the value is...
   /// * [true]
