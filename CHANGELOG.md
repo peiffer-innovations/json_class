@@ -1,6 +1,7 @@
-## [2.1.6] - March 5th, 2023
+## [2.1.6+1] - March 5th, 2023
 
 * Added `fromDynamicMap`
+* Added `fromDynamicMapWithKey`
 
 
 ## [2.1.5+2] - February 14, 2023
