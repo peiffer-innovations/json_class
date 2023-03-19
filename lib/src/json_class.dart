@@ -197,6 +197,23 @@ abstract class JsonClass {
     return result ?? defaultValue;
   }
 
+  /// Parses the dynamic [value] into a [List] of double values.  The value may
+  /// be null, in which case null will be returned, or it may be an array of any
+  /// type, but each element in the array must be parsable into a valid double
+  /// or an error will be thrown.
+  static List<double>? parseDoubleList(dynamic value) {
+    List<double>? result;
+
+    if (value is List) {
+      result = [];
+      for (var v in value) {
+        result.add(parseDouble(v)!);
+      }
+    }
+
+    return result;
+  }
+
   /// Parses a duration from milliseconds.  The [value] may be an [int],
   /// [double], or number encoded [String].  If the [value] cannot be processed
   /// into a duration then this will return the [defaultValue].
@@ -229,6 +246,23 @@ abstract class JsonClass {
     int? defaultValue,
   ]) =>
       parseDouble(value)?.toInt() ?? defaultValue;
+
+  /// Parses the dynamic [value] into a [List] of int values.  The value may be
+  /// null, in which case null will be returned, or it may be an array of any
+  /// type, but each element in the array must be parsable into a valid int or
+  /// an error will be thrown.
+  static List<int>? parseIntList(dynamic value) {
+    List<int>? result;
+
+    if (value is List) {
+      result = [];
+      for (var v in value) {
+        result.add(parseInt(v)!);
+      }
+    }
+
+    return result;
+  }
 
   /// Parses the dynamic [value] in to it's JSON decoded form.  If the [value]
   /// cannot be decoded this will either return the [defaultValue], if not null,

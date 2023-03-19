@@ -1,3 +1,9 @@
+## [2.2.0] - March 19th, 2023
+
+* Added `parseDoubleList`
+* Added `parseIntList`
+
+
 ## [2.1.6+1] - March 5th, 2023
 
 * Added `fromDynamicMap`

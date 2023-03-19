@@ -123,6 +123,28 @@ void main() {
     expect(JsonClass.parseDouble('0xff'), 0xff);
   });
 
+  test('JsonClass.parseDoubleList', () {
+    expect(JsonClass.parseDoubleList(null), null);
+    expect(
+      JsonClass.parseDoubleList(
+        [
+          1.23,
+          '1.23',
+          '1.0',
+          1,
+          '0xff',
+        ],
+      ),
+      [
+        1.23,
+        1.23,
+        1.0,
+        1.0,
+        0xff.toDouble(),
+      ],
+    );
+  });
+
   test('JsonClass.parseDurationFromMillis', () {
     expect(JsonClass.parseDurationFromMillis(null), null);
     expect(JsonClass.parseDurationFromMillis(123),
@@ -161,6 +183,29 @@ void main() {
     expect(JsonClass.parseInt(1.0), 1);
     expect(JsonClass.parseInt(1), 1);
     expect(JsonClass.parseInt('0xff'), 0xff);
+  });
+
+  test('JsonClass.parseIntList', () {
+    expect(JsonClass.parseIntList(null), null);
+
+    expect(
+      JsonClass.parseIntList(
+        [
+          1.23,
+          '1.23',
+          '1.0',
+          1,
+          0xff,
+        ],
+      ),
+      [
+        1,
+        1,
+        1,
+        1,
+        0xff,
+      ],
+    );
   });
 
   test('JsonClass.parseLevel', () {
