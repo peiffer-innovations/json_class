@@ -147,8 +147,16 @@ void main() {
 
   test('JsonClass.parseDurationFromMillis', () {
     expect(JsonClass.parseDurationFromMillis(null), null);
-    expect(JsonClass.parseDurationFromMillis(123),
-        const Duration(milliseconds: 123));
+    expect(
+      JsonClass.parseDurationFromMillis(
+        const Duration(milliseconds: 123),
+      ),
+      const Duration(milliseconds: 123),
+    );
+    expect(
+      JsonClass.parseDurationFromMillis(123),
+      const Duration(milliseconds: 123),
+    );
     expect(
       JsonClass.parseDurationFromMillis(123.5),
       const Duration(milliseconds: 123),
@@ -166,7 +174,15 @@ void main() {
   test('JsonClass.parseDurationFromSeconds', () {
     expect(JsonClass.parseDurationFromSeconds(null), null);
     expect(
-        JsonClass.parseDurationFromSeconds(123), const Duration(seconds: 123));
+      JsonClass.parseDurationFromSeconds(
+        const Duration(seconds: 123),
+      ),
+      const Duration(seconds: 123),
+    );
+    expect(
+      JsonClass.parseDurationFromSeconds(123),
+      const Duration(seconds: 123),
+    );
     expect(JsonClass.parseDurationFromSeconds(123.5),
         const Duration(seconds: 123));
     expect(JsonClass.parseDurationFromSeconds('123'),

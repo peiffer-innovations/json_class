@@ -1,3 +1,8 @@
+## [2.2.1] - March 25th, 2023
+
+* Updated to allow for a Duration to be passed in to the `parseDuration...` functions.
+
+
 ## [2.2.0] - March 19th, 2023
 
 * Added `parseDoubleList`

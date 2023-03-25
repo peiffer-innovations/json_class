@@ -221,7 +221,7 @@ abstract class JsonClass {
     dynamic value, [
     Duration? defaultValue,
   ]) {
-    final millis = parseInt(value);
+    final millis = value is Duration ? value.inMilliseconds : parseInt(value);
 
     return millis == null ? defaultValue : Duration(milliseconds: millis);
   }
@@ -233,7 +233,7 @@ abstract class JsonClass {
     dynamic value, [
     Duration? defaultValue,
   ]) {
-    final seconds = parseInt(value);
+    final seconds = value is Duration ? value.inSeconds : parseInt(value);
 
     return seconds == null ? defaultValue : Duration(seconds: seconds);
   }
