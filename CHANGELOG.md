@@ -1,3 +1,8 @@
+## [2.2.1+1] - March 28, 2023
+
+* Automated dependency updates
+
+
 ## [2.2.1] - March 25th, 2023
 
 * Updated to allow for a Duration to be passed in to the `parseDuration...` functions.
@@ -202,6 +207,7 @@
 ## [1.0.0] - June 6th, 2020
 
 * Initial release
+
 
 
 
