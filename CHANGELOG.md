@@ -1,3 +1,9 @@
+## [3.0.0] - July 16th, 2023
+
+* Converted from nullable by default to non-nullable by defailt.
+* Moved nullable functions to `maybe` functions such as `maybeParseInt`.
+
+
 ## [2.2.2+1] - July 4, 2023
 
 * Automated dependency updates

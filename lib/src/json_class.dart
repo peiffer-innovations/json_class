@@ -13,7 +13,57 @@ abstract class JsonClass {
 
   /// Helper function to create a [list] of dynamic objects given a [builder]
   /// that can build a single object.
-  static List<T>? fromDynamicList<T>(
+  static List<T> fromDynamicList<T>(
+    Iterable<dynamic> list,
+    JsonClassBuilder<T> builder,
+  ) {
+    final result = maybeFromDynamicList(list, builder);
+
+    if (result == null) {
+      throw Exception('Attempted to parse dynamic list but received null');
+    }
+
+    return result;
+  }
+
+  /// Helper function to create a [map] of string keys to dynamic objects given
+  /// a [builder] that can build a single object.
+  static Map<String, T> fromDynamicMap<T>(
+    dynamic map,
+    JsonClassBuilder<T> builder,
+  ) {
+    final result = maybeFromDynamicMap(map, builder);
+
+    if (result == null) {
+      throw Exception(
+        'Requested non-nullable fromDynamicMap but null was encountered.',
+      );
+    }
+
+    return result;
+  }
+
+  /// Helper function to create a [map] of string keys to dynamic objects given
+  /// a [builder] that can build a single object with the key from the incoming
+  /// map being passed to the builder.
+  static Map<String, T> fromDynamicMapWithKey<T>(
+    dynamic map,
+    JsonClassWithKeyBuilder<T> builder,
+  ) {
+    final result = maybeFromDynamicMapWithKey(map, builder);
+
+    if (result == null) {
+      throw Exception(
+        'Requested non-nullable fromDynamicMapWithKey but null was encountered.',
+      );
+    }
+
+    return result;
+  }
+
+  /// Helper function to create a [list] of dynamic objects given a [builder]
+  /// that can build a single object.
+  static List<T>? maybeFromDynamicList<T>(
     Iterable<dynamic>? list,
     JsonClassBuilder<T> builder,
   ) {
@@ -31,7 +81,7 @@ abstract class JsonClass {
 
   /// Helper function to create a [map] of string keys to dynamic objects given
   /// a [builder] that can build a single object.
-  static Map<String, T>? fromDynamicMap<T>(
+  static Map<String, T>? maybeFromDynamicMap<T>(
     dynamic map,
     JsonClassBuilder<T> builder,
   ) {
@@ -50,7 +100,7 @@ abstract class JsonClass {
   /// Helper function to create a [map] of string keys to dynamic objects given
   /// a [builder] that can build a single object with the key from the incoming
   /// map being passed to the builder.
-  static Map<String, T>? fromDynamicMapWithKey<T>(
+  static Map<String, T>? maybeFromDynamicMapWithKey<T>(
     dynamic map,
     JsonClassWithKeyBuilder<T> builder,
   ) {
@@ -76,22 +126,18 @@ abstract class JsonClass {
   /// * `"yes"` (case insensitive)
   /// * `1`
   ///
-  /// Any other value will result in [false].
-  static bool parseBool(
-    dynamic value, {
-    bool whenNull = false,
-  }) {
-    var result = false;
+  /// When [value] is null, this will return null.
+  static bool? maybeParseBool(dynamic value) {
+    bool? result;
 
-    if (value == null) {
-      result = whenNull;
-    } else {
-      result = result || value == true;
-      result = result || parseInt(value) == 1;
-      if (result != true && value is String) {
+    if (value != null) {
+      if (value is bool) {
+        result = value;
+      } else if (value is String) {
         final lower = value.toLowerCase();
-        result = result || lower == 'true';
-        result = result || lower == 'yes';
+        result = lower == 'true' || lower == 'yes';
+      } else {
+        result = maybeParseInt(value) == 1;
       }
     }
 
@@ -116,13 +162,13 @@ abstract class JsonClass {
   ///
   /// Alternatively, the value may be in UTC Millis and that will also properly
   /// decode to a DateTime.
-  static DateTime? parseDateTime(dynamic value) {
+  static DateTime? maybeParseDateTime(dynamic value) {
     DateTime? result;
 
     if (value is DateTime) {
       result = value;
     } else {
-      result = parseUtcMillis(value);
+      result = maybeParseUtcMillis(value);
     }
 
     if (value != null) {
@@ -171,7 +217,7 @@ abstract class JsonClass {
   /// [double] then the [defaultValue] will be returned.
   ///
   /// A value of the string "infinity" will result in [double.infinity].
-  static double? parseDouble(
+  static double? maybeParseDouble(
     dynamic value, [
     double? defaultValue,
   ]) {
@@ -201,13 +247,13 @@ abstract class JsonClass {
   /// be null, in which case null will be returned, or it may be an array of any
   /// type, but each element in the array must be parsable into a valid double
   /// or an error will be thrown.
-  static List<double>? parseDoubleList(dynamic value) {
+  static List<double>? maybeParseDoubleList(dynamic value) {
     List<double>? result;
 
-    if (value is List) {
+    if (value is Iterable) {
       result = [];
       for (var v in value) {
-        result.add(parseDouble(v)!);
+        result.add(parseDouble(v));
       }
     }
 
@@ -215,49 +261,38 @@ abstract class JsonClass {
   }
 
   /// Parses a duration from milliseconds.  The [value] may be an [int],
-  /// [double], or number encoded [String].  If the [value] cannot be processed
-  /// into a duration then this will return the [defaultValue].
-  static Duration? parseDurationFromMillis(
-    dynamic value, [
-    Duration? defaultValue,
-  ]) {
-    final millis = value is Duration ? value.inMilliseconds : parseInt(value);
+  /// [double], or number encoded [String].
+  static Duration? maybeParseDurationFromMillis(dynamic value) {
+    final millis =
+        value is Duration ? value.inMilliseconds : maybeParseInt(value);
 
-    return millis == null ? defaultValue : Duration(milliseconds: millis);
+    return millis == null ? null : Duration(milliseconds: millis);
   }
 
   /// Parses a duration from seconds.  The [value] may be an [int], [double], or
-  /// number encoded [String].  If the [value] cannot be processed into a
-  /// duration then this will return the [defaultValue].
-  static Duration? parseDurationFromSeconds(
-    dynamic value, [
-    Duration? defaultValue,
-  ]) {
-    final seconds = value is Duration ? value.inSeconds : parseInt(value);
+  /// number encoded [String].
+  static Duration? maybeParseDurationFromSeconds(dynamic value) {
+    final seconds = value is Duration ? value.inSeconds : maybeParseInt(value);
 
-    return seconds == null ? defaultValue : Duration(seconds: seconds);
+    return seconds == null ? null : Duration(seconds: seconds);
   }
 
   /// Parses the dynamic [value] into a int.  The value may be a [String], [int],
   /// [double].  If the [value] cannot be successfully parsed into an [int] then
   /// [the [defaultValue] will be returned.
-  static int? parseInt(
-    dynamic value, [
-    int? defaultValue,
-  ]) =>
-      parseDouble(value)?.toInt() ?? defaultValue;
+  static int? maybeParseInt(dynamic value) => maybeParseDouble(value)?.toInt();
 
   /// Parses the dynamic [value] into a [List] of int values.  The value may be
   /// null, in which case null will be returned, or it may be an array of any
   /// type, but each element in the array must be parsable into a valid int or
   /// an error will be thrown.
-  static List<int>? parseIntList(dynamic value) {
+  static List<int>? maybeParseIntList(dynamic value) {
     List<int>? result;
 
     if (value is List) {
       result = [];
       for (var v in value) {
-        result.add(parseInt(v)!);
+        result.add(parseInt(v));
       }
     }
 
@@ -265,20 +300,299 @@ abstract class JsonClass {
   }
 
   /// Parses the dynamic [value] in to it's JSON decoded form.  If the [value]
-  /// cannot be decoded this will either return the [defaultValue], if not null,
-  /// or return the [value] that was passed in if [defaultValue] is null.
-  static dynamic parseJson(
-    dynamic value, [
-    dynamic defaultValue,
-  ]) {
-    final result = value;
+  /// cannot be decoded this will either return null.
+  static dynamic maybeParseJson(dynamic value) {
+    var result = value;
 
-    if (value is String) {
-      try {
-        value = json.decode(value);
-      } catch (e) {
-        value = defaultValue ?? value;
+    try {
+      if (value is Map) {
+        result = Map<String, dynamic>.from(value);
+      } else if (value is String) {
+        result = json.decode(value);
       }
+    } catch (e, stack) {
+      _logger.severe(
+        'Error parsing value: [$value]',
+        e,
+        stack,
+      );
+    }
+
+    return result;
+  }
+
+  /// Parses the given UTC Millis into a proper [DateTime] class.  If the
+  /// [value] cannot be processed then this will return null.
+  static DateTime? maybeParseUtcMillis(dynamic value) {
+    DateTime? result;
+    int? input;
+
+    if (value is DateTime) {
+      result = value;
+    } else if (value is int) {
+      input = value;
+    } else if (value is String || value is double) {
+      input = JsonClass.maybeParseInt(value);
+    }
+
+    if (input != null) {
+      result = DateTime.fromMillisecondsSinceEpoch(
+        input,
+        isUtc: true,
+      );
+    }
+
+    return result;
+  }
+
+  /// Converts the given [list] of [JsonClass] objects into JSON.  If the given
+  /// list is null` then null will be returned.
+  static List<dynamic>? maybeToJsonList(List<JsonClass>? list) {
+    List<dynamic>? result;
+
+    if (list != null) {
+      result = [];
+      for (var j in list) {
+        result.add(j.toJson());
+      }
+    }
+
+    return result;
+  }
+
+  /// Attempts to parse the given [input] into the type [T].  This currently
+  /// supports the following types:
+  ///
+  /// * `bool`
+  /// * `String`
+  /// * `double`
+  /// * `int`
+  /// * `num`
+  /// * `DateTime`
+  /// * `Duration`
+  ///
+  /// Any other type will result in an exception.
+  static T? maybeParseValue<T>(dynamic input) {
+    dynamic result;
+
+    if (T == bool) {
+      result = maybeParseBool(input);
+    } else if (T == String) {
+      result = input?.toString();
+    } else if (T == double) {
+      result = maybeParseDouble(input);
+    } else if (T == int) {
+      result = maybeParseInt(input);
+    } else if (T == num) {
+      result = maybeParseDouble(input);
+    } else if (T == DateTime) {
+      result = maybeParseDateTime(input);
+    } else if (T == Duration) {
+      result = maybeParseDurationFromMillis(input);
+    } else {
+      throw Exception('Unknown value type: [${T.runtimeType}]');
+    }
+
+    return result as T?;
+  }
+
+  /// Parses the dynamic [value] into a [bool].  This will return [true] if and
+  /// only if the value is...
+  /// * [true]
+  /// * `"true"` (case insensitive)
+  /// * `"yes"` (case insensitive)
+  /// * `1`
+  ///
+  /// When [value] is null, this will return [whenNull].
+  static bool parseBool(dynamic value, {bool whenNull = false}) {
+    final result = maybeParseBool(value) ?? whenNull;
+
+    return result;
+  }
+
+  /// Parses the given [value] into a [DateTime] object.  If the [value] cannot
+  /// be parsed then null will be returned.
+  ///
+  /// The following formats will result in the [DateTime] object being returned
+  /// as a UTC based [DateTime]:
+  /// * `"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"`
+  /// * `"yyyy-MM-dd'T'HH:mm:ss'Z'"`
+  /// * `"yyyy-MM-dd'T'HH:mm'Z'"`
+  ///
+  /// The following formats will result in the [DateTime] object being returned
+  /// as a local timezone based [DateTime]:
+  /// * `"yyyy-MM-dd'T'HH:mm:ss"`
+  /// * `"yyyy-MM-dd'T'HH:mm"`
+  /// * `'yyyy-MM-dd'`
+  /// * `'MM/dd/yyyy'`
+  ///
+  /// Alternatively, the value may be in UTC Millis and that will also properly
+  /// decode to a DateTime.
+  static DateTime parseDateTime(dynamic value) {
+    DateTime? result;
+
+    if (value is DateTime) {
+      result = value;
+    } else {
+      result = maybeParseUtcMillis(value);
+    }
+
+    if (value != null) {
+      const utcPatterns = [
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        "yyyy-MM-dd'T'HH:mm'Z'",
+      ];
+
+      const patterns = [
+        "yyyy-MM-dd'T'HH:mm:ss.SSS",
+        "yyyy-MM-dd'T'HH:mm:ss",
+        "yyyy-MM-dd'T'HH:mm",
+        'yyyy-MM-dd',
+        'MM/dd/yyyy'
+      ];
+
+      for (var pattern in utcPatterns) {
+        try {
+          result = DateFormat(pattern).parse(
+            value,
+            true,
+          );
+          break;
+        } catch (e) {
+          // no-op
+        }
+      }
+      if (result == null) {
+        for (var pattern in patterns) {
+          try {
+            result = DateFormat(pattern).parse(value, false);
+            break;
+          } catch (e) {
+            // no-op
+          }
+        }
+      }
+    }
+
+    if (result == null) {
+      throw Exception(
+        'Non-nullable parseDateTime was called but null was encountered',
+      );
+    }
+
+    return result;
+  }
+
+  /// Parses the dynamic [value] into a double.  The [value] may be a [String],
+  /// [int], or [double].  If the [value] cannot be successfully parsed into a
+  /// [double] then null will be returned.
+  ///
+  /// A value of the string "infinity" will result in [double.infinity].
+  static double parseDouble(dynamic value) {
+    double? result;
+    try {
+      if (value is String) {
+        if (value.toLowerCase() == 'infinity') {
+          result = double.infinity;
+        } else if (value.startsWith('0x') == true) {
+          result = int.tryParse(value.substring(2), radix: 16)?.toDouble();
+        } else {
+          result = double.tryParse(value);
+        }
+      } else if (value is double) {
+        result = value;
+      } else if (value is int) {
+        result = value.toDouble();
+      }
+    } catch (e, stack) {
+      _logger.finest('Error parsing: $value', e, stack);
+    }
+
+    if (result == null) {
+      throw Exception(
+        'Non-nullable parseDouble was called but null was encountered',
+      );
+    }
+
+    return result;
+  }
+
+  /// Parses the dynamic [value] into a [List] of double values.  The value may
+  /// be null, in which case null will be returned, or it may be an array of any
+  /// type, but each element in the array must be parsable into a valid double
+  /// or an error will be thrown.
+  static List<double> parseDoubleList(dynamic value) {
+    List<double>? result;
+
+    if (value is Iterable) {
+      result = [];
+      for (var v in value) {
+        result.add(parseDouble(v));
+      }
+    }
+
+    if (result == null) {
+      throw Exception(
+        'Non-nullable parseDoubleList was called but null was encountered',
+      );
+    }
+
+    return result;
+  }
+
+  /// Parses a duration from milliseconds.  The [value] may be an [int],
+  /// [double], or number encoded [String].
+  static Duration? parseDurationFromMillis(dynamic value) {
+    final result = value is Duration ? value.inMilliseconds : parseInt(value);
+
+    return Duration(milliseconds: result);
+  }
+
+  /// Parses a duration from seconds.  The [value] may be an [int], [double], or
+  /// number encoded [String].
+  static Duration parseDurationFromSeconds(dynamic value) {
+    final result = value is Duration ? value.inSeconds : parseInt(value);
+
+    return Duration(seconds: result);
+  }
+
+  /// Parses the dynamic [value] into a int.  The value may be a [String], [int],
+  /// [double].
+  static int parseInt(dynamic value) => parseDouble(value).toInt();
+
+  /// Parses the dynamic [value] into a [List] of int values.  The value may be
+  /// null, in which case null will be returned, or it may be an array of any
+  /// type, but each element in the array must be parsable into a valid int or
+  /// an error will be thrown.
+  static List<int> parseIntList(dynamic value) {
+    final result = maybeParseIntList(value);
+
+    if (result == null) {
+      throw Exception(
+        'Non-nullable parseIntList was called but null was encountered',
+      );
+    }
+
+    return result;
+  }
+
+  /// Parses the dynamic [value] in to it's JSON decoded form.
+  static dynamic parseJson(dynamic value) {
+    var result = value;
+
+    try {
+      if (value is Map) {
+        result = Map<String, dynamic>.from(value);
+      } else if (value is String) {
+        result = json.decode(value);
+      }
+    } catch (e, stack) {
+      _logger.severe(
+        'Error parsing value: [$value]',
+        e,
+        stack,
+      );
     }
 
     return result;
@@ -343,33 +657,13 @@ abstract class JsonClass {
     return result;
   }
 
-  /// Parses the given UTC Millis into a proper [DateTime] class.  If the
-  /// [value] cannot be processed then this will return the [defaultValue] or
-  /// null if there is no provided [defaultValue].
-  static DateTime? parseUtcMillis(
-    dynamic value, [
-    int? defaultValue,
-  ]) {
-    DateTime? result;
-    int? input;
+  /// Parses the given UTC Millis into a proper [DateTime] class.
+  static DateTime parseUtcMillis(dynamic value) {
+    final result = maybeParseUtcMillis(value);
 
-    if (value is int) {
-      input = value;
-    } else if (value is String || value is double) {
-      input = JsonClass.parseInt(value);
-    }
-
-    if (input == null) {
-      result = defaultValue == null
-          ? null
-          : DateTime.fromMillisecondsSinceEpoch(
-              defaultValue,
-              isUtc: true,
-            );
-    } else {
-      result = DateTime.fromMillisecondsSinceEpoch(
-        input,
-        isUtc: true,
+    if (result == null) {
+      throw Exception(
+        'Non-nullable parseUtcMillis was called but null was encountered',
       );
     }
 
@@ -378,38 +672,37 @@ abstract class JsonClass {
 
   /// Converts the given [list] of [JsonClass] objects into JSON.  If the given
   /// list is null` then null will be returned.
-  static List<dynamic>? toJsonList(List<JsonClass>? list) {
-    List<dynamic>? result;
+  static List<dynamic> toJsonList(List<JsonClass> list) {
+    final result = maybeToJsonList(list);
 
-    if (list != null) {
-      result = [];
-      for (var j in list) {
-        result.add(j.toJson());
-      }
+    if (result == null) {
+      throw Exception(
+        'Non-nullable toJsonList was called but null was encountered',
+      );
     }
 
     return result;
   }
 
-  static dynamic parseValue<T>(dynamic input) {
-    dynamic result;
+  /// Attempts to parse the given [input] into the type [T].  This currently
+  /// supports the following types:
+  ///
+  /// * `bool`
+  /// * `String`
+  /// * `double`
+  /// * `int`
+  /// * `num`
+  /// * `DateTime`
+  /// * `Duration`
+  ///
+  /// Any other type will result in an exception.
+  static T parseValue<T>(dynamic input) {
+    final result = maybeParseValue<T>(input);
 
-    if (T == bool) {
-      result = parseBool(input);
-    } else if (T == String) {
-      result = input?.toString();
-    } else if (T == double) {
-      result = parseDouble(input);
-    } else if (T == int) {
-      result = parseInt(input);
-    } else if (T == num) {
-      result = parseDouble(input);
-    } else if (T == DateTime) {
-      result = parseDateTime(input);
-    } else if (T == Duration) {
-      result = parseDurationFromMillis(input);
-    } else {
-      throw Exception('Unknown value type: [${T.runtimeType}]');
+    if (result == null) {
+      throw Exception(
+        'Non-nullable parseValue was called but null was encountered',
+      );
     }
 
     return result;
