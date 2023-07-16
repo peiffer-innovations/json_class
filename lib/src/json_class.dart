@@ -543,7 +543,7 @@ abstract class JsonClass {
 
   /// Parses a duration from milliseconds.  The [value] may be an [int],
   /// [double], or number encoded [String].
-  static Duration? parseDurationFromMillis(dynamic value) {
+  static Duration parseDurationFromMillis(dynamic value) {
     final result = value is Duration ? value.inMilliseconds : parseInt(value);
 
     return Duration(milliseconds: result);

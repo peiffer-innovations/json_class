@@ -1,4 +1,4 @@
-## [3.0.0] - July 16th, 2023
+## [3.0.0+1] - July 16th, 2023
 
 * Converted from nullable by default to non-nullable by defailt.
 * Moved nullable functions to `maybe` functions such as `maybeParseInt`.
