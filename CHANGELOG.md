@@ -1,3 +1,8 @@
+## [3.0.0+2] - August 1, 2023
+
+* Automated dependency updates
+
+
 ## [3.0.0+1] - July 16th, 2023
 
 * Converted from nullable by default to non-nullable by defailt.
@@ -243,6 +248,7 @@
 ## [1.0.0] - June 6th, 2020
 
 * Initial release
+
 
 
 
